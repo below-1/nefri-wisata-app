@@ -1,0 +1,131 @@
+{% import 'app/macros.html' as mac %}
+
+{% macro wisata_item(item) %}
+  <div class="col-sm-6 col-lg-3">
+
+    <a href="/app/wisata/{{item.id}}/detail" class="card card-sm">
+      <div 
+        class="card-body"
+        style="background-image: url({{item.avatar.url}}); background-size: cover; background-position: center; height: 12rem;"
+      >
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div>
+            <div>{{item.nama}}</div>
+            <div class="text-muted">{{item.alamat}}</div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+{% endmacro %}
+
+{% macro wisata_form(item={}, readonly=false, exclude=[]) %}
+  
+    {% if (not exclude.includes('jenis')) %}
+      <div class="form-group mb-3">
+        <label class="form-label">Jenis Wisata {{readonly}}</label>
+        {{ mac.jenis_wisata_input(
+            'jenis', 
+            selected=item.jenis, 
+            readonly=readonly) }}
+      </div>
+    {% endif %}
+
+    {% if (not exclude.includes('nama')) %}
+      {{  mac.text_field(
+        'nama', 
+        value=item.nama,
+        label='Nama Obyek Wisata', 
+        placeholder='Input Nama Obyek Wisata',
+        required=true,
+        readonly=readonly)
+      }}
+    {% endif %}
+
+    {% if (not exclude.includes('alamat')) %}
+      {{  mac.textarea_field(
+        'alamat', 
+        value=item.description,
+        label='Alamat',
+        readonly=readonly)
+      }}
+    {% endif %}
+
+    {% if (not exclude.includes('description')) %}
+      {{  mac.textarea_field(
+        'description', 
+        value=item.description,
+        label='Keterangan Obyek Wisata',
+        readonly=readonly)
+      }}
+    {% endif %}
+
+    {% if (not exclude.includes('fasilitas')) %}
+      <div class="form-group mb-3">
+        <label class="form-label">Fasilitas</label>
+        {{ mac.fasilitas_input(
+          'fasilitas[]', 
+          selected=item.fasilitas, 
+          readonly=readonly) }}
+      </div>
+    {% endif %}
+
+    {% if (not exclude.includes('transportasi')) %}
+      <div class="form-group mb-3">
+        <label class="form-label">Transportasi</label>
+        {{ mac.transportasi_input('transportasi[]', selected=item.transportasi, readonly=readonly) }}
+      </div>
+    {% endif %}
+
+    {% if (not exclude.includes('biaya')) %}
+      {{  mac.number_field('biaya', label='Biaya', required=true, max=9999999999999, value=item.biaya, readonly=readonly) }}
+    {% endif %}
+
+    {% if (not exclude.includes('waktu')) %}
+      {{  mac.number_field(
+          'waktu', 
+          label='Waktu (menit)', 
+          min=0, 
+          max=300, 
+          placeholder="Waktu Tempuh Menuju Lokasi",
+          required=true,
+          value=item.waktu,
+          readonly=readonly
+        ) }}
+    {% endif %}
+
+    {% if (not exclude.includes('jarak')) %}
+      {{  mac.number_field(
+          'jarak', 
+          label='Jarak (km)', 
+          min=0, 
+          max=200,
+          step=0.1,
+          placeholder="Jarak Tempuh Menuju Lokasi",
+          required=true,
+          value=item.jarak,
+          readonly=readonly
+        ) }}
+    {% endif %}
+
+    {% if (not exclude.includes('avatar')) %}
+      {{  mac.file_field(
+            'avatar', 
+            label='Foto Obyek Wisata',
+            placeholder="Silahkan Pilih Foto",
+            required=true
+          ) }}
+    {% endif %}
+
+    <div class="mt-2">
+      <button 
+        type="submit" 
+        class="btn btn-primary w-100"
+      >
+        Simpan Data Obyek Wisata
+      </button>
+    </div>
+
+{% endmacro %}

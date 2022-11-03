@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+{% import 'app/option/number/macros.html' as opt_macro %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Skema
+        </div>
+        <h2 class="page-title">
+          <span>Tambah Pilihan Kriteria {{ kriteria.nama }} -- Skema #{{schema.version}}</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-12 col-md-5">
+      <form class="card" method="POST" enctype="multipart/form-data">
+        <div class="card-header">
+          <div class="card-title">Input Range Bilangan</div>
+        </div>
+
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Batas Bawah</label>
+            <input type="number" class="form-control" name="lower" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Penanda Batas Bawah</label>
+            {{ opt_macro.boundary_sign_input(name='lower_sign') }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Batas Atas</label>
+            <input type="number" class="form-control" name="upper" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Penanda Batas Atas</label>
+            {{ opt_macro.boundary_sign_input(name='upper_sign') }}
+          </div>
+
+          {{ mac.bobot_input_v2('value', 'Nilai') }}
+
+          <button type="submit" class="btn btn-primary fw-bold w-100">simpan</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% macro radio_input(name, selected=[], readonly=false, options=[]) %}
+  <div>
+    {% for option in options %}
+      <label class="form-check">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          value="{{option.value}}"
+          {% if (selected and selected.includes(option.value)) %}
+            checked
+          {% endif %}
+          name="{{name}}"
+          {% if readonly %}
+            onclick="return false;"
+          {% endif %}
+          required
+        />
+        <span class="form-check-label">{{option.label}}</span>
+      </label>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro checkbox_input(name, selected=[], readonly=false, options=[]) %}
+  <div>
+    {% for option in options %}
+      <label class="form-check">
+        <input 
+          class="form-check-input" 
+          type="checkbox" 
+          value="{{option.value}}"
+          {% if (selected and selected.includes(option.value)) %}
+            checked
+          {% endif %}
+          name="{{name}}"
+          {% if readonly %}
+            onclick="return false;"
+          {% endif %}
+        />
+        <span class="form-check-label">{{option.label}}</span>
+      </label>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro jenis_wisata_input(name, selected=null, readonly=false) %}
+  {% set options = [ 
+    { value: 'Alam', label: 'Wisata Alam' }, 
+    { value: 'Budaya', label: 'Wisata Budaya' },
+    { value: 'Religi', label: 'Wisata Religi' }] %}
+  {{ radio_input(name, selected=[selected], readonly=readonly, options=options) }}
+{% endmacro %}
+
+{% macro fasilitas_input(name, selected=[], readonly=false) %}
+  {% set options = [ 
+    { value: 'Parkiran', label: 'Parkiran' }, 
+    { value: 'Toilet', label: 'Toilet' },
+    { value: 'Lopo', label: 'Lopo' },
+    { value: 'Kantin', label: 'Kantin' },
+    { value: 'Penginapan', label: 'Penginapan' }]  %}
+  {{ checkbox_input(name, options=options, selected=selected, readonly=readonly) }}
+{% endmacro %}
+
+{% macro transportasi_input(name, selected=[], readonly=false) %}
+  {% set options = [ 
+    { value: 'AngkutanUmum', label: 'Angkutan Umum' }, 
+    { value: 'Motor', label: 'Motor' },
+    { value: 'Mobil', label: 'Mobil' },
+    { value: 'Pickup', label: 'Pickup' },
+    { value: 'Bus', label: 'Bus' }] %}
+  {{ checkbox_input(name, selected=selected, readonly=readonly, options=options) }}
+{% endmacro %}
+
+{% macro number_field(name, label, min=0, max=0, value='', placeholder='', required=false, readonly=false, step=1) %}
+  <div class="form-group mb-3">
+    <label class="form-label">{{label}}</label>
+    <input class="form-control" 
+      type="number" 
+      min={{min}}
+      max={{max}}
+      step={{ step }}
+      {% if (required) %}
+        required
+      {% endif %}
+      {% if readonly %}
+        readonly
+      {% endif %}
+      name="{{name}}"
+      value="{{ value }}"
+      placeholder="{{placeholder}}" 
+    />
+  </div>
+{% endmacro %}
+
+{% macro text_field(name, label, value='', placeholder='', required=false, readonly=false) %}
+  <div class="form-group mb-3">
+    <label class="form-label">{{label}}</label>
+    <input class="form-control" 
+      type="text"
+      {% if (required) %}
+        required
+      {% endif %}
+      {% if (readonly) %}
+        readonly
+      {% endif %}
+      name="{{name}}" 
+      value="{{value}}"
+      placeholder="{{placeholder}}" 
+    />
+  </div>
+{% endmacro %}
+
+{% macro textarea_field(name, label, value='', placeholder='', required=false) %}
+  <div class="form-group mb-3">
+    <label class="form-label">{{label}}</label>
+    <textarea class="form-control" 
+      {% if (required) %}
+        required
+      {% endif %}
+      name="{{name}}">{{value}}</textarea>
+  </div>
+{% endmacro %}
+
+{% macro file_field(name, label, placeholder='', required=false) %}
+  <div class="form-group mb-3">
+    <div class="form-label">{{label}}</div>
+    <input
+      name="{{name}}" 
+      type="file" 
+      class="form-control"
+      {% if (required) %}
+        required
+      {% endif %}
+    >
+  </div>
+{% endmacro %}
+
+{% macro bobot_input(name, label) %}
+    <div class="form-group mb-3">
+      <div class="form-label"> {{label}} </div>
+      <select class="form-control" name={{name}} required>
+        <option value="5">Sangat Penting</option>
+        <option value="4">Penting</option>
+        <option value="3">Cukup Penting</option>
+        <option value="2">Kurang Penting</option>
+        <option value="1">Tidak Penting</option>
+      </select>
+    </div>
+{% endmacro %}
+
+{% macro bobot_input_v2(name, label, selected=null) %}
+  {% set options = [ 
+    { value: 'TIDAK_PENTING', label: 'Tidak Penting' }, 
+    { value: 'KURANG_PENTING', label: 'Kurang Penting' },
+    { value: 'CUKUP_PENTING', label: 'Cukup Penting' },
+    { value: 'PENTING', label: 'Penting' },
+    { value: 'SANGAT_PENTING', label: 'Sangat Penting' }] %}
+  <div class="form-group mb-3">
+      <div class="form-label"> {{label}} </div>
+      <select class="form-control" name={{name}} required>
+        {% for opt in options %}
+          <option 
+            value="{{opt.value}}"
+            {% if opt.value == selected %}
+              selected
+            {% endif %}
+          >{{opt.label}}</option>
+        {% endfor %}
+      </select>
+    </div>
+{% endmacro %}
+
+{% macro header(title, subtitle) %}
+{% endmacro %}

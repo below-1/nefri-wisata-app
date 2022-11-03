@@ -1,0 +1,53 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+{% import './macros.html' as wisata_mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Wisata
+        </div>
+        <h2 class="page-title">
+          {{ item.nama }} -- Tambah Foto
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Input Gambar</h4>
+        </div>
+        <form class="card-body" 
+          method="post" 
+          enctype="multipart/form-data"
+        >
+          <div class="form-group mb-3">
+            <div class="form-label">Pilih Gambar</div>
+            <input
+              name="media" 
+              type="file" 
+              class="form-control"
+              required
+            >
+          </div>
+          <div class="mt-2">
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100"
+            >
+              Simpan Data Gambar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

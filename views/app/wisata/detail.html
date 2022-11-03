@@ -1,0 +1,205 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+{% import './macros.html' as wisata_mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Wisata
+        </div>
+        <h2 class="page-title">
+          {{ item.nama }}
+        </h2>
+      </div>
+      <div class="col-auto ms-auto d-print-none">
+        {% if context.user %}
+        <div class="btn-list">
+          <a href="#" 
+            class="btn btn-danger" 
+            data-bs-toggle="modal" 
+            data-bs-target="#modal-hapus"
+          >
+            Hapus Data
+          </a>
+          <a 
+            href="/app/wisata/{{item._id}}/add-media" 
+            class="btn btn-primary">Tambah Gambar</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Data Wisata {{ item.nama }}</h4>
+        </div>
+        {% if context.user %}
+        <form 
+          class="card-body" 
+          method="post" 
+          enctype="multipart/form-data"
+          action="/app/wisata/{{item._id}}/update"
+        >
+          <div class="mb-3">
+            <label class="form-label">Jenis Wisata {{readonly}}</label>
+            {{ mac.jenis_wisata_input(
+                'jenis', 
+                selected=item.jenis, 
+                readonly=readonly) }}
+          </div>
+
+          {{  mac.text_field(
+            'nama', 
+            value=item.nama,
+            label='Nama Obyek Wisata', 
+            placeholder='Input Nama Obyek Wisata',
+            required=true,
+            readonly=readonly)
+          }}
+
+          {{  mac.textarea_field(
+            'alamat', 
+            value=item.alamat,
+            label='Alamat',
+            readonly=readonly)
+          }}
+
+          {{  mac.textarea_field(
+            'description', 
+            value=item.description,
+            label='Keterangan Obyek Wisata',
+            readonly=readonly)
+          }}
+
+          {% for kv in kriteriaItems %}
+            <div class="mb-3">
+              <label class="form-label">{{ kv.kriteria.nama }}</label>
+              {% if kv.kriteria.type == 'OPTIONS' %}
+                <select
+                  class="form-control"
+                  {% if kv.kriteria.multiple %}
+                    multiple
+                  {% endif %}
+                  name="{{kv.kriteria.nama}}"
+                  required
+                >
+                  {% for option in kv.kriteria.text_options %}
+                    <option
+                      value="{{option.label}}"
+                      {% if kv.value and kv.value.includes(option.label) %}
+                        selected
+                      {% endif %}
+                    >{{option.label}}</option>
+                  {% endfor %}
+                  {% if not kv.value %}
+                    <option disabled selected>-- Belum Dipilih --</option>
+                  {% endif %}
+                </select>
+              {% elif kv.kriteria.type == 'NUMBER' %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  name="{{kv.kriteria.nama}}"
+                  value="{{ kv.value }}"
+                />
+              {% endif %}
+              {% if not kv.value %}
+                <div class="text-danger">
+                  Nilai Kriteria Masih Kosong
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <div class="mt-2">
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100"
+            >
+              Simpan Data Obyek Wisata
+            </button>
+          </div>
+        </form>
+        {% else %}
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Nama</span>
+              <h4>{{item.nama}}</h4>
+            </li>
+            <li class="list-group-item d-flex justify-content-between" style="flex-direction: column;">
+              <span>Alamata</span>
+              <h4>{{item.alamat}}</h4>
+            </li>
+            <li class="list-group-item d-flex justify-content-between" style="flex-direction: column;">
+              <span>Keterangan</span>
+              <h4>{{item.description}}</h4>
+            </li>
+            {% for kv in kriteria_values %}
+              <li class="list-group-item d-flex justify-content-between">
+                <span>{{ kv.kriteria.nama }}</span>
+                <h4>{{kv.value}}</h4>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+      </div>
+    </div>
+    <div class="col-12 col-md-8">
+      <div class="row row-deck row-cards">
+        {% for media in item.medias %}
+          <div class="col-12 col-md-4">
+            <div class="card">
+              <img class="card-img-top" src="{{media.url}}" alt="{{media.alt}}" />
+              <div class="card-body d-flex justify-content-end align-items-center">
+                <a 
+                  href="/app/wisata/{{item._id}}/set-avatar/{{media._id}}"
+                  class="btn btn-sm btn-outline-primary me-2"
+                >
+                  jadikan gambar utama
+                </a>
+                <a 
+                href="/app/wisata/{{item._id}}/remove-media/{{media._id}}"
+                  class="text-red"
+                >
+                  <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block modal_section %}
+  <div class="modal modal-blur fade" id="modal-hapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-status bg-danger"></div>
+        <div class="modal-body">
+          <div class="modal-title">Apakah anda yakin?</div>
+          <div>Anda akan menghapus data obyek wisata <strong>{{item.nama}}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Batalkan</button>
+          <a 
+            href="/app/wisata/{{item.id}}/delete"
+            class="btn btn-danger"
+          >Ya, Silahkan Hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,3 @@
+mongoimport --uri="mongodb+srv://adminzero:adminzero@cluster0.q07f6y4.mongodb.net/gema_db?retryWrites=true&w=majority" -c wisatas -f ./data/wisata.json
+mongoimport --uri="mongodb+srv://adminzero:adminzero@cluster0.q07f6y4.mongodb.net/gema_db?retryWrites=true&w=majority" -c kriterias --file=../data/kriterias.json
+mongoimport --uri="mongodb+srv://adminzero:adminzero@cluster0.q07f6y4.mongodb.net/gema_db?retryWrites=true&w=majority" -c kriteriavalues  --file=../data/kriteriavalues.json

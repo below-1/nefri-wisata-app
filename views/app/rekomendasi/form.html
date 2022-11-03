@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% import '../macros.html' as mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <h2 class="page-title">
+          <span>Rekomendasi Obyek Wisata</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row row-cards">
+    <div class="col-12 col-md-5">
+
+      <form class="card" method="POST" enctype="multipart/form-data" data-parsley-validate>
+        <div class="card-header">
+          <div class="card-title">Input Bobot Preferensi Kriteria</div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <div class="form-label">Pilih Jenis Wisata</div>
+            {{ mac.jenis_wisata_input(name='jenis') }}
+          </div>
+
+          {% for kriteria in kriteria_list %}
+            {{ mac.bobot_input(kriteria.id, kriteria.nama) }}
+          {% endfor %}
+
+          <div class="mt-2">
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100"
+            >
+              Submit Bobot Preferensi
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/static/custom-js/jquery-3.6.0.min.js"></script>
+  <script src="/static/custom-js/parsley.min.js"></script>
+{% endblock %}

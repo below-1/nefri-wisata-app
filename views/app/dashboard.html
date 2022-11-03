@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Rekomendasi Wisata
+        </div>
+        <h2 class="page-title">
+          <span>Sistem Pendukung Keputusan</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row row-cards">
+    <div class="col-12" style="min-height: 400px; background: linear-gradient(to right, #30435255, #30435266), url(/static/landing/images/bg.jpg); background-repeat: no-repeat; background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-weight: bold;">
+      <h1 style="font-size: 4rem;">Sistem Pendukung Keputusan</h1>
+      <h1>Rekomendasi Obyek Wisata</h1>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Kriteria
+        </div>
+        <h2 class="page-title">
+          <span>Tambah Himpunan Kriteria</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ 'custom-js/vue.global.js'|static }}"></script>
+  <script src="{{ 'custom-js/pages/kriteria/create.js'|static }}"></script>
+{% endblock %}

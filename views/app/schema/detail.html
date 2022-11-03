@@ -1,0 +1,99 @@
+{% extends 'app/base.html' %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Skema
+        </div>
+        <h2 class="page-title">
+          <span>Detail Skema #{{schema.version}}</span>
+        </h2>
+      </div>
+      <!-- Page title actions -->
+      <div class="col-auto ms-auto d-print-none">
+        <div class="btn-list">
+          <a 
+            class="btn btn-outline-primary" 
+            href="/app/schema/{{schema._id}}/add-kriteria"
+          >tambah kriteria</a>
+          <a 
+            class="btn btn-outline-danger" 
+            href="/app/schema/{{schema._id}}/delete"
+          >hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Versi: {{ schema.version }}
+          </li>
+          <li class="list-group-item">
+            Dibuat Pada: {{ schema.createdAt }}
+          </li>
+          <li class="list-group-item">
+            Jumlah Kriteria: {{ schema.krits.length }}
+          </li>
+          <li class="list-group-item">
+            Aktif: {% if schema.active %} 
+              <span class="badge bg-success">Ya</span>
+            {% else %}
+              <span class="badge bg-danger">Tidak</span>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Daftar Kriteria</div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped card-table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Tipe</th>
+                <th>Benefit/Cost</th>
+                <th>Bobot</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for kr in schema.krits %}
+                <tr>
+                  <td>{{kr.nama}}</td>
+                  <td class="text-lowercase">{{ kr.type }}</td>
+                  <td>
+                    {% if kr.benefit %}
+                      <span class="badge bg-azure">Benefit</span>
+                    {% else %}
+                      <span class="badge bg-warning">Cost</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ kr.weight }}</td>
+                  <td class="text-end">
+                    <a class="btn btn-sm btn-outline-primary me-2" href="/app/kriteria/detail?schema={{schema._id}}&kriteria={{kr._id}}">detail</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'app/base.html' %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Kriteria
+        </div>
+        <h2 class="page-title">
+          <span>Daftar Kriteria</span>
+        </h2>
+      </div>
+      <!-- Page title actions -->
+      <div class="col-auto ms-auto d-print-none">
+        <div class="btn-list">
+          <a 
+            class="btn btn-outline-primary" 
+            href="/app/kriteria/create"
+          >tambah kriteria</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table table-striped card-table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Tipe</th>
+                <th>Benefit/Cost</th>
+                <th>Bobot</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for kr in items %}
+                <tr>
+                  <td>{{kr.nama}}</td>
+                  <td class="text-lowercase">{{ kr.type }}</td>
+                  <td>
+                    {% if kr.benefit %}
+                      <span class="badge bg-azure">Benefit</span>
+                    {% else %}
+                      <span class="badge bg-warning">Cost</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ kr.weight }}</td>
+                  <td class="text-end">
+                    <a class="btn btn-sm btn-outline-primary me-2" href="/app/kriteria/{{kr._id}}/detail">detail</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

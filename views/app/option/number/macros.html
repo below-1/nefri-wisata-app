@@ -1,0 +1,11 @@
+{% import 'app/macros.html' as mac %}
+
+{% macro boundary_sign_input(name, value=null, options=[]) %}
+  {% set options = [ 
+    { value: 'LT', label: 'Kurang Dari' }, 
+    { value: 'LTE', label: 'Kurang Dari Sama Dengan' }, 
+    { value: 'GT', label: 'Lebih Besar Dari' }, 
+    { value: 'GTE', label: 'Lebih Besar Dari Sama Dengan' }, 
+    { value: 'NONE', label: 'Tidak Ada' }] %}
+  {{ mac.radio_input(name, selected=[value], options=options) }}
+{% endmacro %}

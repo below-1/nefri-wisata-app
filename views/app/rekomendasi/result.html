@@ -1,0 +1,68 @@
+{% extends 'app/base.html' %}
+{% import '../macros.html' as mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <h2 class="page-title">
+          <span>Rekomendasi Obyek Wisata</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row row-cards">
+    <div class="col-12 col-md-5">
+      <div class="card">
+
+        {% if not error %}
+          <div class="card-header">
+            <div class="card-title">Hasil Rekomendasi Sistem</div>
+          </div>
+          <div class="card-body">
+            <div 
+              class="card-img-bottom img-responsive" 
+              style="background-image: url({{rekomendasi.item.avatar.url}})">
+            </div>
+          </div>
+
+          <ul class="list-group">
+            <li class="list-group-item d-flex align-items-center justify-content-between">
+              <h1>{{rekomendasi.item.nama}}</h1>
+              <h1>{{(rekomendasi.pref * 100)|round(2)}}%</h1>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <span>Alamat</span>
+              <span>{{rekomendasi.item.alamat}}</span>
+            </li>
+            {% for kv in rekomendasi.item.kriterias %}
+              <li class="list-group-item d-flex justify-content-between">
+                <span>{{ kv.kriteria.nama }}</span>
+                <span>{{ kv.value }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="card-header">
+            <div class="card-title text-danger">{{error}}</div>
+          </div>
+          <div class="card-body">
+            <div 
+              class="card-img-bottom img-responsive" 
+              style="background-image: url('/static/error.png')">
+            </div>
+          </div>
+          <div class="card-actions d-flex justify-content-center align-items-center">
+            <a href="/app/rekomendasi" class="btn btn-primary">
+              ulangi perhitungan
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

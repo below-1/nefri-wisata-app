@@ -1,0 +1,171 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Skema
+        </div>
+        <h2 class="page-title">
+          <span>Kriteria {{ kriteria.nama }}</span>
+        </h2>
+      </div>
+      <!-- Page title actions -->
+      <div class="col-auto ms-auto d-print-none">
+        <div class="btn-list">
+          <a 
+            class="btn btn-outline-danger" 
+            href="/app/kriteria/{{kriteria._id}}/delete"
+          >hapus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-12 col-md-5">
+      <form class="card" 
+        method="POST" 
+        action="/app/kriteria/update?kriteria={{kriteria._id}}&schema={{schema._id}}"
+        enctype="multipart/form-data"
+      >
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Nama Kriteria</label>
+            <input type="text" class="form-control" value="{{kriteria.nama}}" name="nama" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tipe Kriteria</label>
+            <input type="text" class="form-control" readonly value="{{kriteria.type}}" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tipe Pilihan</label>
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                value="MULTIPLE"
+                name="multiple"
+                required
+                {% if kriteria.multiple %}
+                  checked
+                {% endif %}
+              />
+              <span class="form-check-label">Ganda</span>
+            </label>
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                value="SINGLE"
+                name="multiple"
+                required
+                {% if not kriteria.multiple %}
+                  checked
+                {% endif %}
+              />
+              <span class="form-check-label">Tunggal</span>
+            </label>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Benefit / Cost</label>
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                value="BENEFIT"
+                name="tcrit"
+                required
+                {% if kriteria.benefit %}
+                  checked
+                {% endif %}
+              />
+              <span class="form-check-label">Benefit</span>
+            </label>
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                value="COST"
+                name="tcrit"
+                required
+                {% if not kriteria.benefit %}
+                  checked
+                {% endif %}
+              />
+              <span class="form-check-label">Cost</span>
+            </label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Bobot</label>
+            <input type="number" value="{{kriteria.weight}}" name="weight" class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-primary w-100 fw-bold">simpan</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-md-7">
+      <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="card-title">Daftar Pilihan</div>
+          <a 
+            class="btn btn-primary"
+            href="/app/option/create?kriteria={{kriteria._id}}">Tambah Pilihan</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nilai</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if kriteria.type == 'NUMBER' %}
+                {% for opt in kriteria.number_options %}
+                  <tr>
+                    <td>{{ format_number_option(opt)}}</td>
+                    <td>{{ format_weight(opt.value) }}</td>
+                    <td class="text-right">
+                      <a class="btn btn-outline-danger btn-sm" href="/app/option/delete?kriteria={{kriteria._id}}&option={{opt._id}}">hapus</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% elif kriteria.type == 'MULTIPLE' %}
+                {% for opt in kriteria.multiple_options %}
+                  <tr>
+                    <td>{{ opt.label }}</td>
+                    <td class="text-right">
+                      <a class="btn btn-danger" href="/app/option/delete?kriteria={{kriteria._id}}&option={{opt._id}}">hapus</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% elif kriteria.type == 'OPTIONS' %}
+                {% for opt in kriteria.text_options %}
+                  <tr>
+                    <td>{{ opt.label }}</td>
+                    <td>{{ opt.value }}</td>
+                    <td class="text-end">
+                      <a class="btn btn-outline-danger btn-sm" 
+                        href="/app/option/delete?kriteria={{kriteria._id}}&option={{opt._id}}"
+                      >hapus</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

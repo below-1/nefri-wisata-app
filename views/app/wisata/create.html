@@ -1,0 +1,99 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+{% import './macros.html' as wisata_mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Wisata
+        </div>
+        <h2 class="page-title">
+          Tambah Data Wisata
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Input Data Obyek Wisata</h4>
+        </div>
+        <form class="card-body" 
+          method="post" 
+          enctype="multipart/form-data"
+        >
+          <div class="form-group mb-3">
+            <label class="form-label">Jenis Wisata</label>
+            {{ mac.jenis_wisata_input('jenis') }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nama Obyek Wisata</label>
+            <input type="text" class="form-control" name="nama" />
+          </div>
+
+          {% for kriteria in kriteria_list %}
+            <div class="mb-3">
+              <label class="form-label">{{ kriteria.nama }}</label>
+              {% if kriteria.type == 'OPTIONS' and kriteria.multiple %}
+                {% for option in kriteria.text_options %}
+                  <label class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="checkbox" 
+                      value="{{option.label}}"
+                      name="{{kriteria.nama}}"
+                      multiple 
+                    />
+                    <span class="form-check-label">{{option.label}}</span>
+                  </label>
+                {% endfor %}
+              {% elif kriteria.type == 'OPTIONS' and not kriteria.multiple %}
+                <select
+                  class="form-control"
+                  {% if kriteria.multiple %}
+                    multiple
+                  {% endif %}
+                  name="{{kriteria.nama}}"
+                >
+                  {% for option in kriteria.text_options %}
+                    <option
+                      value="{{option.label}}"
+                    >{{option.label}}</option>
+                  {% endfor %}
+                </select>
+              {% elif kriteria.type == 'NUMBER' %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  name="{{kriteria.nama}}"
+                />
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <div class="form-group mb-3">
+            <div class="form-label">Avatar</div>
+            <input
+              name="avatar" 
+              type="file" 
+              class="form-control"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn-outline-primary w-100 fw-bold">simpan</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

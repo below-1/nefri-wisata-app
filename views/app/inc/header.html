@@ -1,0 +1,35 @@
+<header class="navbar navbar-expand-md navbar-dark d-print-none">
+  <div class="container-xl">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+      <a href="/" class="d-flex align-items-center">
+        <img src="/static/static/wisata.svg" width="32" height="32" alt="Tabler" class="navbar-brand-image">
+        <strong>ApWisata</strong>
+      </a>
+    </h1>
+    {% if context.user %}
+    <div class="navbar-nav flex-row order-md-last">
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+          <span class="avatar avatar-sm" style="background-image: url(/static/static/avatars/000m.jpg)"></span>
+          <div class="d-none d-xl-block ps-2">
+            <div>{{context.user.username}}</div>
+            <div class="mt-1 small text-muted">
+              {% if context.user.role == 'ADMIN' %}
+                ADMIN
+              {% else %}
+                USER
+              {% endif %}
+            </div>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <a href="/auth/logout" class="dropdown-item">Logout</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</header>

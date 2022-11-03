@@ -1,0 +1,40 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Skema
+        </div>
+        <h2 class="page-title">
+          <span>Tambah Kriteria</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <form class="card" method="POST" enctype="multipart/form-data">
+        <div class="card-header">
+          <div class="card-title">Input Data Pilihan</div>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Nama Pilihan</label>
+            <input name="label" type="text" class="form-control" />
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-outline-primary"
+          >Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

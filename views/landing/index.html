@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <title>ApWisata</title>
+<!--
+Snapshot Template
+http://www.templatemo.com/tm-493-snapshot
+
+Zoom Slider
+https://vegas.jaysalvat.com/
+
+Caption Hover Effects
+http://tympanus.net/codrops/2013/06/18/caption-hover-effects/
+-->
+    <link rel="stylesheet" href="{{ '/landing/css/bootstrap.min.css'|static }}">
+    <link rel="stylesheet" href="{{ '/landing/css/animate.min.css'|static }}">
+    <link rel="stylesheet" href="{{ '/landing/css/font-awesome.min.css'|static }}">
+    <link rel="stylesheet" href="{{ '/landing/css/component.css'|static }}">
+    
+    <link rel="stylesheet" href="{{ '/landing/css/owl.theme.css'|static }}">
+    <link rel="stylesheet" href="{{ '/landing/css/owl.carousel.css'|static }}">
+    <link rel="stylesheet" href="{{ '/landing/css/vegas.min.css'|static }}">
+    <link rel="stylesheet" href="{{ '/landing/css/style.css'|static }}">
+
+    <!-- Google web font  -->
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300' rel='stylesheet' type='text/css'>
+
+    <style>
+      .overlay {
+        background: linear-gradient(to right, #30435211, #304352ee), url(/static/landing/images/bg.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    </style>
+    
+</head>
+<body id="top" data-spy="scroll" data-offset="50" data-target=".navbar-collapse">
+
+
+<!-- Preloader section -->
+
+<div class="preloader">
+     <div class="sk-spinner sk-spinner-pulse"></div>
+</div>
+
+
+<!-- Navigation section  -->
+
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+      <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon icon-bar"></span>
+          <span class="icon icon-bar"></span>
+          <span class="icon icon-bar"></span>
+        </button>
+        <a href="#top" class="navbar-brand smoothScroll">ApWisata</a>
+      </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/" class="smoothScroll"><span>Home</span></a></li>
+            <li><a href="/auth/login" class="smoothScroll"><span>Login</span></a></li>
+          </ul>
+       </div>
+
+    </div>
+  </div>
+
+
+<!-- Home section -->
+
+<section id="home">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-offset-1 col-md-10 col-sm-12 wow fadeInUp" data-wow-delay="0.3s">
+        <h1 class="wow fadeInUp" data-wow-delay="0.6s">Rekomendasi Obyek Wisata</h1>
+        <p class="wow fadeInUp" data-wow-delay="0.9s">Snapshot website template is available for free download. Anyone can modify and use it for any site. Please tell your friends about <a rel="nofollow" href="http://www.templatemo.com">templatemo</a>. Thank you.</p>
+        <a href="/app/rekomendasi" class="smoothScroll btn btn-success btn-lg wow fadeInUp" data-wow-delay="1.2s">Cari Wisata</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Gallery section -->
+<section id="gallery">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-offset-2 col-md-8 col-sm-12 wow fadeInUp" data-wow-delay="0.3s">
+        <div class="section-title">
+          <h1>Gallery</h1>
+          <p>Nullam scelerisque, quam nec iaculis vulputate, arcu ligula sollicitudin nisl, ac volutpat erat nulla a arcu.</p>
+        </div>
+      </div>
+
+
+      <ul class="grid cs-style-4">
+        {% for item in items %}
+            <li class="col-md-6 col-sm-6">
+              <figure>
+                <div><img src="{{item.avatar.url}}" alt="image 1"></div>
+                <figcaption>
+                  <h1>{{item.nama}}</h1>
+                  <small>{{item.alamat}}</small>
+                  <a href="/app/wisata/{{item._id}}/detail">Informasi Detail</a>
+                </figcaption>
+              </figure>
+            </li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Footer section -->
+
+<footer>
+    <div class="container">
+    
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+            
+                <ul class="social-icon"> 
+                    <li><a href="#" class="fa fa-facebook wow fadeInUp" data-wow-delay="0.2s"></a></li>
+                    <li><a href="#" class="fa fa-twitter wow fadeInUp" data-wow-delay="0.4s"></a></li>
+                    <li><a href="#" class="fa fa-linkedin wow fadeInUp" data-wow-delay="0.6s"></a></li>
+                    <li><a href="#" class="fa fa-instagram wow fadeInUp" data-wow-delay="0.8s"></a></li>
+                    <li><a href="#" class="fa fa-google-plus wow fadeInUp" data-wow-delay="1.0s"></a></li>
+                </ul>
+
+                <p class="wow fadeInUp"  data-wow-delay="1s" >Copyright &copy; 2016 Snapshot Studio | 
+                Design: <a href="https://plus.google.com/+templatemo" title="free css templates" target="_blank">Templatemo</a></p>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+</footer>
+
+<!-- Back top -->
+<a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
+
+<!-- Javascript  -->
+<script src="{{ '/landing/js/jquery.js'|static }}"></script>
+<script src="{{ '/landing/js/bootstrap.min.js'|static }}"></script>
+<script src="{{ '/landing/js/vegas.min.js'|static }}"></script>
+<script src="{{ '/landing/js/modernizr.custom.js'|static}}"></script>
+<script src="{{ '/landing/js/toucheffects.js'|static}}"></script>
+<script src="{{ '/landing/js/owl.carousel.min.js'|static }}"></script>
+<script src="{{ '/landing/js/smoothscroll.js'|static }}"></script>
+<script src="{{ '/landing/js/wow.min.js'|static }}"></script>
+<script src="{{ '/landing/js/custom.js'|static }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends 'app/base.html' %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Kriteria
+        </div>
+        <h2 class="page-title">
+          <span>Riwayat Kriteria Dalam Sistem</span>
+        </h2>
+      </div>
+      <!-- Page title actions -->
+      <div class="col-auto ms-auto d-print-none">
+        <div class="btn-list">
+          <form method="POST" action="/app/schema/create" enctype="multipart/form-data">
+            <button 
+              type="submit"
+              class="btn btn-primary" 
+            >
+              <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              Tambah Skema
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table table-striped card-table">
+            <thead>
+              <tr>
+                <th>Versi</th>
+                <th>Kriteria</th>
+                <th>Status</th>
+                <th>Aktif</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+                <tr>
+                  <td>{{ item.version }}</td>
+                  <td>
+                    {% if item.krits.length == 0 %}
+                      <span>Belum ada kriteria</span>
+                    {% else %}
+                      <div class="d-flex align-items-center" style="gap: 4px;">
+                        {% for kr in item.krits %}
+                          <span class="badge bg-azure">{{ kr.nama }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if not item.locked %}
+                      <span>Draft</span>
+                    {% else %}
+                      <span>Terkunci</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <span>{% if item.active %} aktif {% endif %}</span>
+                  </td>
+                  <td class="text-end">
+                    <a class="btn btn-primary btn-sm" href="/app/schema/{{item.id}}/detail">detail</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

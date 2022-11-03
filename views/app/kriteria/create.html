@@ -1,0 +1,67 @@
+{% extends 'app/base.html' %}
+{% import 'app/macros.html' as mac %}
+
+{% block page_header %}
+  <div class="page-header d-print-none">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- Page pre-title -->
+        <div class="page-pretitle">
+          Skema
+        </div>
+        <h2 class="page-title">
+          <span>Tambah Kriteria</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <form class="card" method="POST" enctype="multipart/form-data">
+        <div class="card-header">
+          <div class="card-title">Input Data Kriteria</div>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Nama Kriteria</label>
+            <input name="nama" type="text" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Tipe Kriteria</label>
+            {% set options = [ 
+              { value: 'NUMBER', label: 'Angka' }, 
+              { value: 'MULTIPLE', label: 'Text (Multiple)' }, 
+              { value: 'OPTIONS', label: 'Text (Single)' }] %}
+            {{ mac.radio_input('type', options=options) }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                value="true"
+                name="benefit"
+              />
+              <span class="form-check-label">Benefit ?</span>
+            </label>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Bobot</label>
+            <input type="number" min="0" name="weight" class="form-control" />
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn btn-outline-primary"
+          >Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
