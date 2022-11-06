@@ -187,8 +187,8 @@ export default async fastify => {
       const sum_cols = range(N_ALTERNATIF).map(i => {
         return sum( discordance_index.map(r => r[i]).filter(x => !isNaN(x)) )
       })
-      console.log('discordances sums')
-      console.log(sum_cols)
+      // console.log('discordances sums')
+      // console.log(sum_cols)
       // throw new Error('stop')
 
       const concordance_sum = sum( 
@@ -267,18 +267,18 @@ export default async fastify => {
         console.log()
       }
       
-      printMatrix('Xs', Xs)
-      printMatrix('Xij', Xij)
-      printMatrix('XW', XW)
-      printAltKrit(items, Xs, kriteria_list.map(it => it.nama))
-      printMatrix('concordance index', concordance_index)
-      printMatrix('discordance index', discordance_index)
-      console.log('threeshold concordance = ', threeshold_concordance)
-      printMatrix('dominance concordance', dominance_concordance)
-      console.log('threeshold discordance = ', threeshold_discordance)
-      printMatrix('dominance discordance', dominance_discordance)
-      printMatrix('Matriks E', E)
-      throw new Error('stop')
+      // printMatrix('Xs', Xs)
+      // printMatrix('Xij', Xij)
+      // printMatrix('XW', XW)
+      // printAltKrit(items, Xs, kriteria_list.map(it => it.nama))
+      // printMatrix('concordance index', concordance_index)
+      // printMatrix('discordance index', discordance_index)
+      // console.log('threeshold concordance = ', threeshold_concordance)
+      // printMatrix('dominance concordance', dominance_concordance)
+      // console.log('threeshold discordance = ', threeshold_discordance)
+      // printMatrix('dominance discordance', dominance_discordance)
+      // printMatrix('Matriks E', E)
+      // throw new Error('stop')
 
       // let rekomendasi = topsis(Xs, weights, types)
       // rekomendasi.item = items[rekomendasi.biggest_index]
