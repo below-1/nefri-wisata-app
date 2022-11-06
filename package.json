@@ -30,6 +30,7 @@
     "fastify-static": "^4.6.1",
     "imagekit": "^3.2.5",
     "lodash-es": "^4.17.21",
+    "lodash.combinations": "^18.11.1",
     "mongoose": "^6.2.10",
     "nunjucks": "^3.2.3",
     "point-of-view": "^5.2.0"

@@ -79,6 +79,19 @@
             readonly=readonly)
           }}
 
+          <div class="form-group mb-3">
+            <label class="form-label">Urutan</label>
+            <input class="form-control" 
+              type="number" 
+              min="0"
+              max="1000"
+              required
+              name="order"
+              value="{{ item.order }}"
+              placeholder="Urutan" 
+            />
+          </div>
+
           {% for kv in kriteriaItems %}
             <div class="mb-3">
               <label class="form-label">{{ kv.kriteria.nama }}</label>

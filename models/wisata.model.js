@@ -34,6 +34,7 @@ export const WisataSchema = new mongoose.Schema({
   description: { type: String, required: false },
   alamat: { type: String, required: false },
   avatar: MediaSchema,
+  order: { type: Number, required: true, default: 999 },
   medias: [MediaSchema]
 }, { 
   timestamps: true,

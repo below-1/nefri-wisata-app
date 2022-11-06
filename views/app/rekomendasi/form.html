@@ -25,19 +25,20 @@
         <div class="card-body">
           <div class="form-group">
             <div class="form-label">Pilih Jenis Wisata</div>
-            {{ mac.jenis_wisata_input(name='jenis') }}
+            <select class="form-control" name="jenis" required>
+              <option value="all">Semua Objek Wisata</option>
+              <option value="Alam">Wisata Alam</option>
+              <option value="Budaya">Wisata Budaya</option>
+              <option value="Religi">Wisata Religi</option>
+            </select>
           </div>
-
-          {% for kriteria in kriteria_list %}
-            {{ mac.bobot_input(kriteria.id, kriteria.nama) }}
-          {% endfor %}
 
           <div class="mt-2">
             <button 
               type="submit" 
               class="btn btn-primary w-100"
             >
-              Submit Bobot Preferensi
+              Jalankan Perangkingan
             </button>
           </div>
 

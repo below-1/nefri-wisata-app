@@ -128,7 +128,7 @@ export default async (fastify) => {
       })
       const kriteria_inputs = pick(payload, kriteria_names);
 
-      const wisata_data = pick(payload, ['nama', 'jenis', 'alamat', 'description']);
+      const wisata_data = pick(payload, ['nama', 'jenis', 'alamat', 'description', 'order']);
       let wisata = await Wisata.findById(request.params.id)
       wisata.set(wisata_data)
       await wisata.save();
