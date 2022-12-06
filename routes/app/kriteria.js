@@ -41,6 +41,18 @@ export default async (fastify) => {
   fastify.get('/:id/detail', {
     handler: async (request, reply) => {
       const kriteria = await Kriteria.findById(request.params.id)
+      const allKriteria = await Kriteria.find({})
+      // let totalOtherWeights = 0;
+      // console.log(allKriteria);
+      // for (let k of allKriteria) {
+      //   if (k._id.equals( kriteria._id) ) {
+      //     console.log('k._id = ', k._id)
+      //     console.log('kriteria._id = ', kriteria._id)
+      //     continue;
+      //   }
+      //   totalOtherWeights += k.weight;
+      // }
+      // const maxWeight = 100 - totalOtherWeights;
       // console.lo
       // throw new Error('kriteria')
       if (!kriteria) {
@@ -53,6 +65,7 @@ export default async (fastify) => {
       }
       reply.xview('app/kriteria/detail', {
         kriteria,
+        // maxWeight,
         format_weight,
         format_number_option
       })
