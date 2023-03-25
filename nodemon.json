@@ -1,5 +1,4 @@
 {
   "verbose": true,
-  "ignore": ["node_modules/*/**", "views/*/**"],
-  "delay": 2500
+  "ignore": ["node_modules/*/**", "views/*/**"]
 }

@@ -36,7 +36,12 @@
           {% for kriteria in kriteria_list %}
             <div class="form-group">
               <div class="form-label">{{kriteria.nama}}</div>
-              <input type="number" class="form-control" min="0" />
+              <input type="number" 
+                class="form-control" 
+                name="{{kriteria._id}}"
+                value="{{kriteria.weight}}" 
+                min="0"
+              />
             </div>
           {% endfor %}
 

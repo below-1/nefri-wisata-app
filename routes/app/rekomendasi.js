@@ -1,14 +1,14 @@
 import Multer from 'fastify-multer'
-import { pick, values, sum, range, flatten, sortBy, reverse } from 'lodash-es'
-import { Wisata } from '../../models/wisata.model.js'
+import { flatten, range, reverse, sortBy, sum } from 'lodash-es'
 import { Kriteria } from '../../models/kritsch.model.js'
+import { Wisata } from '../../models/wisata.model.js'
 
 const upload = Multer({ dest: 'uploads/' })
 
 export default async fastify => {
   fastify.get('/', {
     handler: async (request, reply)  => {
-      const kriteria_list = await Kriteria.find()
+      const kriteria_list = await Kriteria.find().lean()
       reply.xview('app/rekomendasi/form', {
         kriteria_list
       })
@@ -19,21 +19,23 @@ export default async fastify => {
     preHandler: upload.none(),
     handler: async (request, reply) => {
       let payload = {...request.body}
-      const kriteria_list = await Kriteria.find()
-      console.log(kriteria_list.map(it => it.nama))
+      let { jenis, ...weightOptions } = payload;
+      let kriteria_list = await Kriteria.find().lean().exec();
+      kriteria_list = kriteria_list.map(k => {
+        return {
+          ...k,
+          weight: parseInt(weightOptions[k._id.toString()])
+        }
+      })
       const keys = kriteria_list.map(it => it._id.toString())
       const original_weights = kriteria_list.map(it => it.weight)
-      const weights = original_weights.map(w => w / 100.0)
-      // const original_weights = values(pick(payload, keys)).map(it => parseInt(it))
       const total_weights = sum(original_weights)
-      // const weights = original_weights.map(it => it * 1.0 / total_weights)
+      const weights = original_weights.map(w => w / total_weights * 100)
       const types = kriteria_list.map(k => k.benefit ? 'benefit' : 'cost')
       let filter = {}
-      if (payload.jenis !== 'all') {
-        filter['jenis'] = payload.jenis
+      if (jenis !== 'all') {
+        filter['jenis'] = jenis
       }
-      console.log(payload.jenis)
-      console.log('payload.jenis')
       // Processing the filter based on jenis
       let items = await Wisata
         .find(filter)
@@ -45,8 +47,6 @@ export default async fastify => {
           }
         })
         .sort({ order: 1 })
-      console.log(items.map(it => it.nama));
-      console.log('items');
       items = items.filter(it => it.kriterias.length && it.kriterias.every(kv => kv.value && kv.kriteria));
       if (!items.length) {
         return reply.view('app/rekomendasi/result', {
@@ -72,7 +72,7 @@ export default async fastify => {
             } else {
               const selected = options.find(opt => opt.label == kv.value)
               if (!selected) {
-                console.log(it)
+                console.error(it)
                 throw new Error('KV_INVALID')
               }
               return selected.value
@@ -93,9 +93,6 @@ export default async fastify => {
           .reduce((a, b) => a + b, 0)
         return Math.sqrt(sum)
       })
-
-      // console.log(cols)
-      // throw new Error('stop')
 
       const Xij = Xs.map(row => {
         return row.map((x, i) => {
@@ -170,26 +167,12 @@ export default async fastify => {
           // console.log('denumerator_candidates');
           const denumerator = Math.max( ...denumerator_candidates );
           const result = numerator / denumerator
-          // if (i == 2 && j == 14) {
-          //   console.log('numerator');
-          //   console.log(numerator);
-          //   console.log('denumerator');
-          //   console.log(denumerator);
-          //   console.log('denumerator_candidates')
-          //   console.log(denumerator_candidates)
-          //   console.log('numerator_candidates')
-          //   console.log(numerator_candidates)
-          // }
-          // throw new Error('stop');
           return result;
         })
       })
       const sum_cols = range(N_ALTERNATIF).map(i => {
         return sum( discordance_index.map(r => r[i]).filter(x => !isNaN(x)) )
       })
-      // console.log('discordances sums')
-      // console.log(sum_cols)
-      // throw new Error('stop')
 
       const concordance_sum = sum( 
         flatten(
@@ -267,18 +250,17 @@ export default async fastify => {
         console.log()
       }
       
-      printMatrix('Xs', Xs)
-      printMatrix('Xij', Xij)
-      printMatrix('XW', XW)
-      printAltKrit(items, Xs, kriteria_list.map(it => it.nama))
-      printMatrix('concordance index', concordance_index)
-      printMatrix('discordance index', discordance_index)
-      console.log('threeshold concordance = ', threeshold_concordance)
-      printMatrix('dominance concordance', dominance_concordance)
-      console.log('threeshold discordance = ', threeshold_discordance)
-      printMatrix('dominance discordance', dominance_discordance)
-      printMatrix('Matriks E', E)
-      throw new Error('stop')
+      // printMatrix('Xs', Xs)
+      // printMatrix('Xij', Xij)
+      // printMatrix('XW', XW)
+      // printAltKrit(items, Xs, kriteria_list.map(it => it.nama))
+      // printMatrix('concordance index', concordance_index)
+      // printMatrix('discordance index', discordance_index)
+      // console.log('threeshold concordance = ', threeshold_concordance)
+      // printMatrix('dominance concordance', dominance_concordance)
+      // console.log('threeshold discordance = ', threeshold_discordance)
+      // printMatrix('dominance discordance', dominance_discordance)
+      // printMatrix('Matriks E', E)
 
       // let rekomendasi = topsis(Xs, weights, types)
       // rekomendasi.item = items[rekomendasi.biggest_index]
