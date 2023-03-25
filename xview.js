@@ -6,7 +6,7 @@ import {
 export default fp(async (fastify) => {
   fastify.decorateReply('xview', function (path, data) {
     return this.view(path, {
-      ...data,
+      ...data ,
       context: {
         user: rc.get('user')
       }
